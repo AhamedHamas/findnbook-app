@@ -9,10 +9,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onPress,
   buttonStyle,
   textStyle,
+  isDisabled = false,
 }) => {
   const styles = StyleSheet.create({
     button: {
-      backgroundColor: buttonBackgroundColor,
+      backgroundColor: !isDisabled ? buttonBackgroundColor : 'gray',
       paddingVertical: 12,
       paddingHorizontal: 24,
       borderRadius: 8,
@@ -30,7 +31,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   });
 
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={onPress}
+      disabled={isDisabled}>
       <Text style={styles.text}>{buttonLabel}</Text>
     </TouchableOpacity>
   );

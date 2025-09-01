@@ -1,5 +1,6 @@
 export type ServiceItemBarProps = {
   title: string;
-  price: string;
-  duration: string;
+  price: number;
+  duration: number;
+  onTap: () => void;
 };

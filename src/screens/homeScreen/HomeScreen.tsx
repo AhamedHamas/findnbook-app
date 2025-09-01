@@ -1,57 +1,18 @@
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import globalStyles from '../../../global.css';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faLocationDot,
-  faMapLocationDot,
-  faScissors,
-  faSearch,
-} from '@fortawesome/free-solid-svg-icons';
-import ServicePill from '../../UI/molecules/servicePill/ServicePill';
-import LocationHeader from '../../UI/molecules/locationHeader/LocationHeader';
-import SearchBar from '../../UI/molecules/searchBar/SearchBar';
-import {createAxiosClient} from '../../api';
-import {useGetAllVendorTypes} from '../../api/vendor/vendor';
-import VendorCard from '../../UI/molecules/vendorCard/VendorCard';
+import {useSelector} from 'react-redux';
+import {CustomerHome} from './customerHome/CustomerHome';
+import {RootState} from '../../store/store';
+import {OwnerHome} from './ownerHome/OwnerHome';
 
-const HomeScreen = () => {
-  // const client = createAxiosClient();
+export const HomeScreen = () => {
+  const token = useSelector((state: RootState) => state.auth.token);
+  const user = useSelector((state: RootState) => state.user);
 
-  // const {data: vendorTypes} = useGetAllVendorTypes(client);
+  console.log('User data in HomeScreen:', user);
+  console.log('Auth Token:', token);
 
-  return (
-    <View style={globalStyles.pagePadding}>
-      <LocationHeader />
-      <SearchBar />
-      <View style={{marginVertical: 20}}>
-        <Text style={globalStyles.text.subtitle}>Services</Text>
-        <ScrollView
-          style={{flexDirection: 'row', marginVertical: 20, gap: 20}}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{gap: 10}}>
-          <ServicePill />
-          <ServicePill />
-          <ServicePill />
-        </ScrollView>
-        <View style={{marginTop: 15, marginBottom: 15}}>
-          <Text style={globalStyles.text.subtitle}>Barbershops Near You</Text>
-        </View>
-        <ScrollView
-          contentContainerStyle={{gap: 15}}
-          showsVerticalScrollIndicator={false}>
-          <VendorCard />
-          <VendorCard />
-        </ScrollView>
-      </View>
-    </View>
-  );
+  if (user.role === 'CUSTOMER' && token) {
+    return <CustomerHome />;
+  }
+
+  return <OwnerHome />;
 };
-
-export default HomeScreen;
